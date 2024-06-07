@@ -1,0 +1,100 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #0d0d0d; /* Dark background */
+    font-family: Arial, sans-serif;
+    color: white; /* Ensure the text is visible on dark background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Set body height to viewport height */
+}
+
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Ensure particles are behind other content */
+}
+
+.content {
+    padding: 20px;
+    text-align: center; /* Center the text */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background to enhance text visibility */
+    border-radius: 10px;
+    max-width: 80%; /* Ensure it doesn't stretch too wide */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Shadow effect */
+    margin-right: 20px; /* Add margin to separate it from the new content */
+}
+
+h1, h2, h3, p {
+    margin: 10px 0; /* Add some margin for spacing */
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 0 10px;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-family: Arial, sans-serif; /* Arial font */
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+.button:hover {
+    background-color: rgba(0, 0, 0, 0.7); /* Darker semi-transparent black on hover */
+}
+
+.contour-lines {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none; /* Ensure the lines don't interfere with mouse events */
+    z-index: -2; /* Ensure contour lines are behind other content */
+}
+
+.buttons-content {
+    padding: 20px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    max-width: 40%; /* Adjust width as needed */
+    box-sizing: border-box;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    margin-left: 20px; /* Add margin to separate it from the main content */
+    display: flex;
+    flex-direction: column; /* Display buttons vertically */
+}
+
+.buttons-content h2 {
+    margin-top: 0; /* Remove default margin for the title */
+    margin-bottom: 10px; /* Add margin below the title */
+}
+
+@media screen and (max-width: 768px) {
+    /* Adjust styles for smaller screens */
+    .content, .buttons-content {
+        max-width: calc(50% - 20px); /* Set max width for each content box */
+        margin-left: 0; /* Remove margin on smaller screens */
+        margin-right: 0; /* Remove margin on smaller screens */
+        margin-bottom: 20px; /* Add margin at the bottom of each content box */
+    }
+}
+
+.buttons-vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

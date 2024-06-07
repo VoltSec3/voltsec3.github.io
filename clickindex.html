@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eclipse Clicker</title>
+    <link rel="stylesheet" href="clickstyle.css">
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/erosson/swarm-numberformat@v0.1.0/dist/swarm-numberformat.min.js"></script>
+    <script>
+        var clicker = {
+            generics: 0,
+            upgrades: {
+                generic_table: {
+                    amount: 0,
+                    cost: 10,
+                    gps: 1,
+                    hasun: false,
+                    unlocked: 5,
+                    name: "Crafting Bench"
+                },
+                generic_duplicator: {
+                    amount: 0,
+                    cost: 30,
+                    gps: 3,
+                    hasun: false,
+                    unlocked: 15,
+                    name: "Solar Duplicator"
+                },
+                generic_snowglobefactory: {
+                    amount: 0,
+                    cost: 100,
+                    gps: 10,
+                    hasun: false,
+                    unlocked: 50,
+                    name: "Eclipsical Snowglobe-Factory"
+                },
+                generic_minifactory: {
+                    amount: 0,
+                    cost: 250,
+                    gps: 20,
+                    hasun: false,
+                    unlocked: 125,
+                    name: "Lunar Mini-Factory"
+                },
+                generic_factory: {
+                    amount: 0,
+                    cost: 500,
+                    gps: 45,
+                    hasun: false,
+                    unlocked: 250,
+                    name: "Totality Factory"
+                },
+                generic_company: {
+                    amount: 0,
+                    cost: 1000,
+                    gps: 85,
+                    hasun: false,
+                    unlocked: 500,
+                    name: "Syzygy Company"
+                },
+                generic_uniinaglobe: {
+                    amount: 0,
+                    cost: 5000,
+                    gps: 500,
+                    hasun: false,
+                    unlocked: 2500,
+                    name: "Solar Universe-In-A-Globe"
+                },
+            },
+            acheivs: [{ req: "clicker.generics>0", gotten: false, text: "Your first pair of solar eclipse glasses. You probably bought this off ebay, but something sparks inside of you." }, { req: "clicker.generics>49", gotten: false, text: "You started to make some, You created 50 of them. Something resonates inside of you." }, { req: "clicker.generics>99", gotten: false, text: "100 Eclipse Glasses. You will surely become a supplier." }]
+        };
+        var delay = 0;
+        var gps = 0;
+        function thing_clicked(thing) {
+            if (clicker.upgrades[thing].cost <= clicker.generics) {
+                clicker.generics -= clicker.upgrades[thing].cost;
+                clicker.upgrades[thing].amount++;
+                clicker.upgrades[thing].cost += Math.round(clicker.upgrades[thing].cost * 0.30);
+                update_upgrades();
+            }
+        }
+        function update_upgrades() {
+            document.querySelector("#upgrades").innerHTML = "";
+            var d = 0;
+            for (i in clicker.upgrades) {
+                if (clicker.upgrades[i].hasun) {
+                    document.querySelector("#upgrades").innerHTML += `<br> <button onclick="thing_clicked('${i}')">${clicker.upgrades[i].name}</button> You have ${numberformat.format(clicker.upgrades[i].amount)}. Cost: ${numberformat.format(clicker.upgrades[i].cost)}`;
+                    d += clicker.upgrades[i].gps * clicker.upgrades[i].amount;
+                }
+            }
+            gps = d;
+        }
+        function updatecount() {
+            update_upgrades();
+            if (Cookies.get("clicker") != null && Cookies.get("clicker") != "undefined") {
+                var clicker1 = JSON.parse(Cookies.get("clicker"));
+                for (i in clicker.upgrades) {
+                    if (clicker1.upgrades[i] == null) {
+                        clicker1.upgrades[i] = clicker.upgrades[i];
+                    }
+                }
+                clicker = clicker1;
+
+                for (i in clicker.acheivs) {
+                    if (clicker1.acheivs[i] == null || clicker.acheivs[i].text != clicker1.acheivs[i].text) {
+                        clicker1.acheivs[i] = clicker.acheivs[i]
+                    }
+                }
+                clicker = clicker1;
+            }
+            update_upgrades();
+            if (Cookies.get("lasttime") != null) {
+                var lastsavedate = Number(Cookies.get("lasttime"));
+                lastsavedate = Date.now() - lastsavedate;
+                lastsavedate = Math.round(lastsavedate / 1000);
+                if (lastsavedate / 60 >= 1) {
+                    clicker.generics += lastsavedate * gps / 1.8;
+                    document.querySelector("#acheivs").innerHTML += `<br>While you were gone...<br> You Got ${numberformat.format(lastsavedate * gps / 1.8)} Safety Glasses.`
+                }
+            }
+            setInterval(() => {
+                for (i in clicker.upgrades) {
+                    clicker.generics += clicker.upgrades[i].amount * clicker.upgrades[i].gps / 20;
+                }
+                for (i in clicker.acheivs) {
+                    var b = new Function('return ' + clicker.acheivs[i].req);
+                    if (b() && !clicker.acheivs[i].gotten) {
+                        clicker.acheivs[i].gotten = true;
+                        document.querySelector("#acheivs").innerHTML += `<br>Achievement Unlocked!<br>${clicker.acheivs[i].text}<br>`; // Add line break before displaying each achievement
+                    }
+                }
+                document.querySelector("#generics").innerHTML = "You have " + numberformat.format(Number(String(clicker.generics).split(".")[0])) + " Safety Glasses";
+                for (i in clicker.upgrades) {
+                    if (!clicker.upgrades[i].hasun && clicker.upgrades[i].unlocked <= clicker.generics) {
+                        clicker.upgrades[i].hasun = true;
+                        update_upgrades();
+                    }
+                }
+                delay++;
+                if (delay >= 40) {
+                    Cookies.set("clicker", JSON.stringify(clicker), { expires: 100000 });
+                    Cookies.set("lasttime", Date.now(), { expires: 100000 })
+                    delay = 0;
+                }
+            }, 50);
+        }
+
+
+    </script>
+</head>
+
+<body onload="updatecount()" class="moving-gradient">
+    <h1>NOTICE: HEAVY WORK IN PROGRESS! BUGS ARE VERY FREQUENT.</h1>
+    <h1 id="generics">You have 0 Safety Glasses</h1>
+    <button onclick="clicker.generics++">Generate 1 Pair</button>
+    <div id="upgrades">
+
+    </div>
+    <br>
+    <div id="acheivs" style="  width: 900px;
+    height: 300px;
+    overflow-y: scroll; /* Allow vertical scrolling only */
+    overflow-x: hidden;"></div>
+</body>

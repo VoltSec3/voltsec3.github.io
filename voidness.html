@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voidness³</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <audio id="audio" preload="auto" loop>
+        <source src="https://github.com/k3pz1/songmp3/raw/main/moment.mp3" type="audio/mpeg">
+    </audio>
+    <div id="particles-js"></div>
+    <div class="content">
+        <h1>Voidness³</h1>
+        <h2>Im so happy I have voltsec..</h2>
+        <p>I LOVE GTAG!!!</p>
+        <p>Made epicly cool epic super epic cool gorilla tag game!!</p>
+        <p>i totally didnt give voltsec playfab access</p>
+        <div class="buttons">
+            <a href="https://steamcommunity.com/profiles/76561199557398172/" class="button">Steam Page</a>
+            <a href="https://k3pz1.github.io/projectsoup.html" class="button">Project Soup</a>
+            <a href="#" id="playLink" class="button">Play Music</a>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="particles-config.js"></script>
+    <script>
+        document.getElementById('playLink').addEventListener('click', function(event) {
+            event.preventDefault();
+            const audio = document.getElementById('audio');
+            audio.play().then(() => {
+                console.log('Audio is playing.');
+            }).catch((error) => {
+                console.error('Error playing audio:', error);
+            });
+        });
+    </script>
+</body>
+</html>
