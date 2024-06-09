@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voidness³</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <audio id="audio" preload="auto" loop>
+        <source src="https://github.com/VoltSec3/songmp3/raw/main/moment.mp3" type="audio/mpeg">
+    </audio>
+    <div id="particles-js"></div>
+    <div class="content">
+        <h1>Devour³</h1>
+        <p>Made a nice discord market.</p>
+        <p>Go buy premium now.</p>
+        <div class="buttons">
+            <a href="https://discord.gg/TjNtUNsw" class="button">Discord</a>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="particles-config.js"></script>
+    <script>
+        document.getElementById('playLink').addEventListener('click', function(event) {
+            event.preventDefault();
+            const audio = document.getElementById('audio');
+            audio.play().then(() => {
+                console.log('Audio is playing.');
+            }).catch((error) => {
+                console.error('Error playing audio:', error);
+            });
+        });
+    </script>
+</body>
+</html>
